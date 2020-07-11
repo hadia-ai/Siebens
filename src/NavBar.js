@@ -1,7 +1,8 @@
 import React from 'react';
-import Button from './Button.js';
+import { Link } from 'react-router-dom';
+import Button from './Button';
 import logo from './logo.svg';
-import Jumbotron from './Jumbotron.js';
+import Jumbotron from './Jumbotron';
 
 const NavBar = () => {
 
@@ -11,15 +12,20 @@ const NavBar = () => {
 
     return (
         <nav className="navbar navbar-dark bg-dark">
-            <a className="navbar-brand" href="#">
-                <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="" loading="lazy"/>
+            <Link className="navbar-brand" to="/">
+                <img src={logo} width="30" height="30" 
+                className="d-inline-block align-top" 
+                alt="" 
+                loading="lazy"/>
                 Bootstrap
-            </a>
-            <div style={{display: 'flex'}}>
+            </Link>
 
-                <button onClick={promptLogin} className="btn btn-primary">
+            <div style={{display: 'flex'}}>
+                <Link
+                to="/login"
+                className="btn btn-primary">
                     Log In
-                </button>
+                </Link>
             </div>
         </nav>
     )
