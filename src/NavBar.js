@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from './AppContext';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import logo from './logo.svg';
@@ -6,8 +7,17 @@ import Jumbotron from './Jumbotron';
 
 const NavBar = () => {
 
-    const promptLogin = () => {
-        window.location = "https://www.myapp.com/login"
+    const [globalState, setGlobalState] = useContext(AppContext);
+
+    const logOut = () => {
+        setGlobalState(
+            {
+                ...globalState,
+                loggedIn: false
+            }
+        );
+
+        localStorage.clear();
     }
 
     return (
@@ -21,11 +31,21 @@ const NavBar = () => {
             </Link>
 
             <div style={{display: 'flex'}}>
-                <Link
-                to="/login"
-                className="btn btn-primary">
-                    Log In
-                </Link>
+                {
+                    globalState.loggedIn === false && <Link
+                    to="/login"
+                    className="btn btn-primary">
+                        Log In
+                    </Link>
+                }
+
+                {
+                    globalState.loggedIn === true && 
+                    <button onClick={logOut}
+                    className="btn btn-primary">
+                        Log Out
+                    </button>
+                }
             </div>
         </nav>
     )

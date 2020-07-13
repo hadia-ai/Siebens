@@ -39,4 +39,3 @@ const ColorButton = () => {
 }
 
 export default ColorButton;
-
