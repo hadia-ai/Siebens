@@ -35,7 +35,7 @@ const NavBar = () => {
                     globalState.loggedIn === false && <Link
                     to="/login"
                     className="btn btn-primary">
-                        Log In
+                        Log In / Register
                     </Link>
                 }
 
