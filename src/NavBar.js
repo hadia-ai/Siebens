@@ -32,7 +32,8 @@ const NavBar = () => {
 
             <div style={{display: 'flex'}}>
                 {
-                    globalState.loggedIn === false && <Link
+                    globalState.loggedIn === false && 
+                    <Link
                     to="/login"
                     className="btn btn-primary">
                         Log In / Register

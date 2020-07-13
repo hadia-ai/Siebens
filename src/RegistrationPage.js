@@ -1,13 +1,79 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import AppContext from './AppContext';
 import NavBar from './NavBar.js';
 
-const RegistrationPage = () => {
-
     // These will be assigned values by React
+    
+    const RegistrationPage = () => {
 
-    // If the user is loggedIn, redirect them
+        // These will be assigned values by React
+        let firstNameField;
+        let lastNameField;
+        let emailField;
+        let passwordField;
+    
+        // Connected to globalState
+        const [globalState, setGlobalState] = useContext(AppContext);
+    
+        // A local state
+        const [state, setState] = useState(
+            {
+                loading: false
+            }
+        )
+    
+        const registerUser = () => {
+    
+            // Start loading
+            setState({...state, loading: true})
+    
+            fetch('http://localhost:8080/users/register', 
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        firstName: firstNameField.value,
+                        lastName: lastNameField.value,
+                        email: emailField.value,
+                        password: passwordField.value
+                    }),
+                    headers: {"Content-Type": "application/json"}
+                }
+            )
+            .then(
+                (result) => result.json()
+            )
+            .then (
+                (json) => {
+                    const { message, jsonwebtoken } = json;
+                    if(jsonwebtoken) {
+                        // update the globalState
+                        setGlobalState(
+                            {
+                                ...globalState,
+                                registerUser: true
+                            }
+                        )
+    
+                        // save the jwt in the browser
+                        localStorage.setItem('jwt', jsonwebtoken);
+    
+                        setState({...state, loading: false})
+                    } else {
+                        // throw an error
+                        alert(message);
+                    }
+                }
+            )
+        }
+    // If the user is registerd, redirect them
+
+            if(globalState.registerUser === true) {
+                return(<Redirect to="/"/>)
+            }
 
     // Otherwise, show the login form
+    else {
         return(
             <div>
                 <NavBar />
@@ -18,8 +84,6 @@ const RegistrationPage = () => {
                         <div className="col-sm" 
                         style={{maxWidth: '400px', margin: '0 auto'}}>
                             <div>
-
-
                                 <div className="form-group">
                                     <label>
                                         First Name
@@ -82,6 +146,7 @@ const RegistrationPage = () => {
               </div>
             </div>
         )
+    }
 }
 
-export default RegistrationPage;
+export default RegistrationPage; 
