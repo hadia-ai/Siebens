@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import AppContext from './AppContext';
 import NavBar from './NavBar.js';
 
-const LoginPage = () => {
+const SignInPage = () => {
 
     // These will be assigned values by React
     let emailField;
@@ -19,12 +19,12 @@ const LoginPage = () => {
         }
     )
 
-    const loginUser = () => {
+    const SignInUser = () => {
 
         // Start loading
         setState({...state, loading: true});
 
-        fetch('http://localhost:8080/users/login', 
+        fetch('http://localhost:8080/users/signin', 
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -47,7 +47,7 @@ const LoginPage = () => {
                     setGlobalState(
                         {
                             ...globalState,
-                            loggedIn: true
+                            signedIn: true
                         }
                     )
 
@@ -66,7 +66,7 @@ const LoginPage = () => {
 
 
     // If the user is loggedIn, redirect them
-    if(globalState.loggedIn === true) {
+    if(globalState.signedIn === true) {
         return(<Redirect to="/"/>)
     }
 
@@ -75,7 +75,7 @@ const LoginPage = () => {
         return(
             <div>
                 <NavBar />
-                <h1>Login</h1>
+                <h1>SignIn</h1>
 
                 <div className="container">
                     <div className="row">
@@ -107,9 +107,9 @@ const LoginPage = () => {
                                 </div>
 
                                 <button 
-                                onClick={loginUser}
+                                onClick={signInUser}
                                 type="button"
-                                className="btn btn-primary">Login</button>
+                                className="btn btn-primary">SignIn</button>
 
 
                                 <p><br/>If you're not a registered user, click <Link to="/register">here</Link> to create an account</p>
@@ -131,4 +131,4 @@ const LoginPage = () => {
     }
 }
 
-export default LoginPage;
+export default SignInPage;

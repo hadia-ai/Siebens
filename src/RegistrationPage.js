@@ -112,7 +112,7 @@ const RegistrationPage = () => {
 
     // If the user is registered, redirect them
     if(state.registered === true) {
-        return (<Redirect to="/login"/>)
+        return (<Redirect to="/signin"/>)
     }
 
     // Otherwise, show the registration form

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AppContext from './AppContext';
 import LandingPage from './LandingPage';
-import LoginPage from './LoginPage';
+import SignInPage from './SignInPage';
 import RegistrationPage from './RegistrationPage';
 import SettingsPage from './SettingsPage';
 import './App.css';
@@ -12,10 +12,10 @@ const PrivateRoute = ({ component: Component, ...otherProps }) => {
 
     const [globalState, setGlobalState] = useContext(AppContext);
 
-    if(globalState.loggedIn) {
+    if(globalState.signedIn) {
       return(<Route component={Component} {...otherProps} />);
     } else {
-      return(<Redirect to="/login" />);
+      return(<Redirect to="/signin" />);
     }
 }
 
@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, ...otherProps }) => {
 const App = () => {
 
   const [globalState, setGlobalState] = useState({
-    loggedIn: localStorage.getItem('jwt') ? true : false,
+    signedIn: localStorage.getItem('jwt') ? true : false,
     user: null
   });
 
@@ -32,7 +32,7 @@ const App = () => {
     ()=>{
         // when (and if) globalState.loggedIn changes,
         // run the below code
-        console.log("This the loggedIn state", globalState.loggedIn)
+        console.log("This the signedIn state", globalState.signedIn)
     }, 
     [globalState.loggedIn]
   )
@@ -42,7 +42,7 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact={true} component={LandingPage}/>
-          <Route path="/login" exact={true} component={LoginPage}/>
+          <Route path="/signin" exact={true} component={SignInPage}/>
           <Route path="/register" exact={true} component={RegistrationPage}/>
           <PrivateRoute path="/settings" exact={true} component={SettingsPage}/>
         </Switch>
