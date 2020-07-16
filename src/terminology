@@ -1,0 +1,61 @@
+// Server
+A computer with connected to WWW
+​
+// Client
+A server sending requests (browser, postman, cURL, etc.).
+​
+// Host
+A server responding to the reqeusts.
+​
+// JSON (JavaScript Object Notation)
+A file specifically for a JS object
+​
+// Collection
+A file that contains JSON data 
+​
+// Database (Mongo)
+Contains all of the collections
+​
+// Schema
+Describes the kind of data you want to store
+​
+// Model
+Provides function to be used for the schema
+​
+// fetch function
+​
+// spread operator (...object)
+This will copy and outout all of the contents of an object
+​
+// npm
+A bash program for installing packages that run with node
+​
+// npx
+A bash program for creating ready-made npm apps
+​
+// Component
+A function that returns JSX
+​
+// Props
+Attributes you can put to components. There are two types:
+(1) custom props and (2) children prop.
+​
+// Event binding (e.g, onClick, onMouseDown, onKeyDown)
+For interactions with mouse, trackpad, keyboard, and touchscreen.
+​
+// ref prop
+A special React prop that return a JSX component as an object.
+​
+// State
+A javascript object. The state of a component at any stage of an interaction
+​
+// Context
+A built-in component from React that allows sending props to any
+subcomponent at any level indirectly.
+​
+// Global State
+A state that any component anywhere can access.
+​
+// Routing (via react-router)
+This allows navigating between components with a change
+of the URL.

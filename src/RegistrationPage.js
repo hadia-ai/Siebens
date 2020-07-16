@@ -1,78 +1,121 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import AppContext from './AppContext';
+import { validEmail, validPassword } from './utils'; 
 import NavBar from './NavBar.js';
 
-    // These will be assigned values by React
-    
-    const RegistrationPage = () => {
+const RegistrationPage = () => {
 
-        // These will be assigned values by React
-        let firstNameField;
-        let lastNameField;
-        let emailField;
-        let passwordField;
-    
-        // Connected to globalState
-        const [globalState, setGlobalState] = useContext(AppContext);
-    
-        // A local state
-        const [state, setState] = useState(
-            {
-                loading: false
-            }
-        )
-    
-        const registerUser = () => {
-    
-            // Start loading
-            setState({...state, loading: true})
-    
-            fetch('http://localhost:8080/users/register', 
+    const [state, setState] = useState(
+        {
+            registered: false,
+            loading: false,
+            errors: 0,
+            messages: []
+        }
+    );
+
+    // These will be assigned values by React
+    let firstNameField;
+    let lastNameField;
+    let emailField;
+    let passwordField;
+
+    const registerUser = () => {
+        // console.log(
+        //     firstNameField.value,
+        //     lastNameField.value,
+        //     emailField.value,
+        //     passwordField.value
+        // )
+
+        let errors = 0;
+        let messages = [];
+
+        if(firstNameField.value.length < 1) {
+            errors++;
+            messages.push('Please enter a valid first name')
+        }
+        if(lastNameField.value.length < 1) {
+            errors++;
+            messages.push('Please enter a valid last name')
+        }
+        if(!validEmail(emailField.value)) {
+            errors++;
+            messages.push('Please enter a valid email')
+        }
+        if(!validPassword(passwordField.value)) {
+            errors++;
+            messages.push('Please enter a valid password')
+        }
+
+        // If user makes any mistake
+        if(errors > 0) {
+            setState(
                 {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        firstName: firstNameField.value,
-                        lastName: lastNameField.value,
-                        email: emailField.value,
-                        password: passwordField.value
-                    }),
-                    headers: {"Content-Type": "application/json"}
+                    ...state,
+                    errors: errors,
+                    messages: messages,
                 }
             )
-            .then(
-                (result) => result.json()
-            )
-            .then (
-                (json) => {
-                    const { message, jsonwebtoken } = json;
-                    if(jsonwebtoken) {
-                        // update the globalState
-                        setGlobalState(
-                            {
-                                ...globalState,
-                                registerUser: true
-                            }
-                        )
-    
-                        // save the jwt in the browser
-                        localStorage.setItem('jwt', jsonwebtoken);
-    
-                        setState({...state, loading: false})
-                    } else {
-                        // throw an error
-                        alert(message);
-                    }
+            return;
+        } 
+        // If no mistake occurs, reset the errors
+        else {
+            setState(
+                {
+                    ...state,
+                    errors: 0,
+                    messages: [],
+                    loading: true
                 }
             )
         }
-    // If the user is registerd, redirect them
 
-            if(globalState.registerUser === true) {
-                return(<Redirect to="/"/>)
+        fetch('http://localhost:8080/users/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                firstName: firstNameField.value,
+                lastName: lastNameField.value,
+                email: emailField.value,
+                password: passwordField.value
+            }),
+            headers: {
+                "Content-Type": "application/json"
             }
+        })
+        .then(
+            (response)=>response.json()
+        )
+        .then(
+            (json)=> {
+                const { message } = json;
+                if(message === "User has been saved") {
+                    //
+                    setState(
+                        {
+                            ...state,
+                            registered: true,
+                            loading: false
+                        }
+                    )
+                } else {
+                    //alert("Please check all the fields");
+                    setState(
+                        {
+                            loading: false
+                        }
+                    )
+                }
+            }
+        )
+    }
 
-    // Otherwise, show the login form
+    // If the user is registered, redirect them
+    if(state.registered === true) {
+        return (<Redirect to="/login"/>)
+    }
+
+    // Otherwise, show the registration form
     else {
         return(
             <div>
@@ -90,7 +133,7 @@ import NavBar from './NavBar.js';
                                     </label>
 
                                     <input 
-                                    ref={ (comp)=> firstNameField = comp}
+                                    ref={(comp)=>firstNameField = comp}
                                     type="text" 
                                     className="form-control" 
                                     aria-describedby="firstName"/>
@@ -102,7 +145,7 @@ import NavBar from './NavBar.js';
                                     </label>
 
                                     <input 
-                                    ref={ (comp)=> lastNameField = comp}
+                                    ref={(comp)=>lastNameField = comp}
                                     type="text" 
                                     className="form-control" 
                                     aria-describedby="lastName"/>
@@ -114,7 +157,7 @@ import NavBar from './NavBar.js';
                                     </label>
 
                                     <input 
-                                    ref={ (comp)=> emailField = comp}
+                                    ref={(comp)=>emailField = comp}
                                     type="email" 
                                     className="form-control" 
                                     id="exampleInputEmail1" 
@@ -129,7 +172,7 @@ import NavBar from './NavBar.js';
                                     </label>
 
                                     <input 
-                                    ref={ (comp)=> passwordField = comp}
+                                    ref={(comp)=>passwordField = comp}
                                     type="password" 
                                     className="form-control" 
                                     aria-describedby="password"/>
@@ -140,6 +183,27 @@ import NavBar from './NavBar.js';
                                 type="button"
                                 className="btn btn-primary">Register
                                 </button>
+                                <br/><br/>
+
+                                {
+                                 state.loading && 
+                                 <div className="loader">
+                                    <svg className="circular" viewBox="25 25 50 50">
+                                        <circle className="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                    </svg>
+                                </div>
+                                }
+
+                                {
+                                    state.errors > 0 &&
+                                    <div class="alert alert-danger" role="alert">
+                                        {
+                                            state.messages.map(
+                                                (message)=><p>{message}</p>
+                                            )
+                                        }
+                                    </div>
+                                }
                         </div>
                     </div>
                 </div>
@@ -149,4 +213,4 @@ import NavBar from './NavBar.js';
     }
 }
 
-export default RegistrationPage; 
+export default RegistrationPage;
