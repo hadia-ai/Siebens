@@ -9,11 +9,11 @@ const NavBar = () => {
 
     const [globalState, setGlobalState] = useContext(AppContext);
 
-    const signOut = () => {
+    const logOut = () => {
         setGlobalState(
             {
                 ...globalState,
-                signedIn: false
+                loggedIn: false
             }
         );
 
@@ -32,19 +32,19 @@ const NavBar = () => {
 
             <div style={{display: 'flex'}}>
                 {
-                    globalState.signedIn === false && 
+                    globalState.loggedIn === false && 
                     <Link
-                    to="/signin"
+                    to="/login"
                     className="btn btn-primary">
-                        Sign In
+                        Log In / Register
                     </Link>
                 }
 
                 {
-                    globalState.signedIn === true && 
-                    <button onClick={signOut}
+                    globalState.loggedIn === true && 
+                    <button onClick={logOut}
                     className="btn btn-primary">
-                        Sign Out
+                        Log Out
                     </button>
                 }
             </div>

@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import AppContext from './AppContext';
 import NavBar from './NavBar.js';
 
-const SignInPage = () => {
+const LoginPage = () => {
 
     // These will be assigned values by React
     let emailField;
@@ -19,12 +19,12 @@ const SignInPage = () => {
         }
     )
 
-    const SignInUser = () => {
+    const loginUser = () => {
 
         // Start loading
         setState({...state, loading: true});
 
-        fetch('http://localhost:8080/users/signin', 
+        fetch('http://localhost:8080/users/login', 
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -47,7 +47,7 @@ const SignInPage = () => {
                     setGlobalState(
                         {
                             ...globalState,
-                            signedIn: true
+                            loggedIn: true
                         }
                     )
 
@@ -66,7 +66,7 @@ const SignInPage = () => {
 
 
     // If the user is loggedIn, redirect them
-    if(globalState.signedIn === true) {
+    if(globalState.loggedIn === true) {
         return(<Redirect to="/"/>)
     }
 
@@ -75,7 +75,7 @@ const SignInPage = () => {
         return(
             <div>
                 <NavBar />
-                <h1>SignIn</h1>
+                <h1>Login</h1>
 
                 <div className="container">
                     <div className="row">
@@ -107,9 +107,9 @@ const SignInPage = () => {
                                 </div>
 
                                 <button 
-                                onClick={signInUser}
+                                onClick={loginUser}
                                 type="button"
-                                className="btn btn-primary">SignIn</button>
+                                className="btn btn-primary">Login</button>
 
 
                                 <p><br/>If you're not a registered user, click <Link to="/register">here</Link> to create an account</p>
@@ -131,4 +131,4 @@ const SignInPage = () => {
     }
 }
 
-export default SignInPage;
+export default LoginPage;

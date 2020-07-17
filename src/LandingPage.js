@@ -18,7 +18,7 @@ const LandingPage = () => {
   useEffect(
     () => {
       // only fetch products if and when the user logs in
-      if(globalState.signedIn === true) {
+      if(globalState.loggedIn === true) {
         fetch('http://localhost:8080/products')
         .then(
           (result)=>result.json()
@@ -35,7 +35,7 @@ const LandingPage = () => {
         );
       }
     },
-    [ globalState.signedIn ]
+    [ globalState.loggedIn ]
   )
 
   return (
@@ -55,7 +55,7 @@ const LandingPage = () => {
 
         <div className="row">
           {
-            globalState.signedIn === true &&
+            globalState.loggedIn === true &&
             state.products.map(
               (product)=>
                 <div className="col-lg-4 col-sm-6">
@@ -71,9 +71,9 @@ const LandingPage = () => {
           }
 
           {
-            globalState.signedIn === false &&
+            globalState.loggedIn === false &&
             <div className="col-lg-4 col-sm-6">
-              <p>Please signin to see the exclusive products.</p>
+              <p>Please login to see the exclusive products.</p>
             </div>
           }
           </div>
