@@ -6,6 +6,7 @@ import LoginPage from './LoginPage';
 import RegistrationPage from './RegistrationPage';
 import SettingsPage from './SettingsPage';
 import './App.css';
+import LogoutPage from './LogoutPage'
 
 
 const PrivateRoute = ({ component: Component, ...otherProps }) => {
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/login" exact={true} component={LoginPage}/>
           <Route path="/register" exact={true} component={RegistrationPage}/>
           <PrivateRoute path="/settings" exact={true} component={SettingsPage}/>
+          <PrivateRoute path="/logout" exact={true} component={LogoutPage}/>
         </Switch>
       </BrowserRouter>
     </AppContext.Provider>
