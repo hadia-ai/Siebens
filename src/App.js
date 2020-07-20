@@ -46,7 +46,6 @@ const App = () => {
           <Route path="/login" exact={true} component={LoginPage}/>
           <Route path="/register" exact={true} component={RegistrationPage}/>
           <PrivateRoute path="/settings" exact={true} component={SettingsPage}/>
-          <PrivateRoute path="/logout" exact={true} component={LogoutPage}/>
         </Switch>
       </BrowserRouter>
     </AppContext.Provider>
