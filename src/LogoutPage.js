@@ -69,5 +69,5 @@ const LogoutPage = () => {
     if(globalState.loggedOut === true) {
         return(<Redirect to="/"/>)
     }
-
+}
     export default LogoutPage;
