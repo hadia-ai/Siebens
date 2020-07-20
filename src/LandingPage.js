@@ -43,7 +43,7 @@ const LandingPage = () => {
         <NavBar />
         <Jumbotron 
           title="Newsletter" 
-          description="Enter your email below to register"
+          description="Enter your email to register"
         >
           <NewsletterForm />
         </Jumbotron>

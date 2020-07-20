@@ -21,13 +21,13 @@ const NavBar = () => {
     }
 
     return (
-        <nav className="navbar navbar-dark bg-dark">
+        <nav className="navbar navbar-light bg-dark">
             <Link className="navbar-brand" to="/">
                 <img src={logo} width="30" height="30" 
                 className="d-inline-block align-top" 
                 alt="" 
                 loading="lazy"/>
-                Bootstrap
+                SIEBENS
             </Link>
 
             <div style={{display: 'flex'}}>
