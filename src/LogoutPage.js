@@ -62,8 +62,7 @@ const LogoutPage = () => {
                 }
             }
         )
-    };
-
+    }
 
     // If the user is loggedout, redirect them
     if(globalState.loggedOut === true) {
